@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import LoadingAnimation from "../components/LoadingAnimation";
 import { useHighRated } from "../hooks/useHighRated";
+import { useDispatch } from "react-redux";
+import { playFilm } from "../redux/reducers/filmSLice";
 
 const Home: React.FC = () => {
+  const [currentPlaying, setPlaying] = useState<number | null>(null);
   const { data, error, isLoading } = useHighRated();
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(playFilm(currentPlaying));
+    window.open("/watch", "_self");
+  }, [currentPlaying]);
 
   if (isLoading) return <LoadingAnimation />;
   if (error) return <div>Error: {error.message}</div>;
@@ -29,6 +39,7 @@ const Home: React.FC = () => {
               </p>
               <p>{movie.release_date.slice(0, 4)}</p>
             </div>
+            <button onClick={() => setPlaying(movie.id)}>WATCH</button>
           </li>
         ))}
       </ul>
