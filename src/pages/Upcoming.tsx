@@ -1,28 +1,24 @@
 import React from "react";
-import { useMovies } from "../hooks/useMovies";
-import LoadingAnimation from "../components/LoadingAnimation";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 import { playFilm } from "../redux/reducers/filmSLice";
+import { Link } from "react-router-dom";
+import { useUpcoming } from "../hooks/useUpcoming";
 
-const TrendingMovies: React.FC = () => {
-  const { data, error, isLoading } = useMovies();
+const Upcoming: React.FC = () => {
+  const { data } = useUpcoming();
 
   const dispatch = useDispatch();
 
-  if (isLoading) return <LoadingAnimation />;
-  if (error) return <div>Error: {error.message}</div>;
-
   return (
-    <div className="container my-10">
-      <h2 className="text-xl mb-5">
-        TRENDING MOVIES FOR YOU
+    <div className="my-16">
+      <h2 className="text-3xl font-bold mb-10">
+        Upcoming Movies
         <span className="ml-3 text-2xl text-yellow-500 font-bold">&#62;</span>
       </h2>
       <ul className="grid xl:grid-cols-5 md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-10">
-        {data?.map((movie) => (
-          <li key={movie.id}>
-            <Link onClick={() => dispatch(playFilm(movie.id))} to="/watch">
+        {data?.slice(0, 10).map((movie) => (
+          <li key={movie.id} className="">
+            <Link to="/watch" onClick={() => dispatch(playFilm(movie.id))}>
               <img
                 className="rounded-md"
                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -44,4 +40,4 @@ const TrendingMovies: React.FC = () => {
   );
 };
 
-export default TrendingMovies;
+export default Upcoming;

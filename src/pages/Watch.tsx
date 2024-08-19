@@ -19,6 +19,7 @@ const Watch = () => {
   return (
     <div className="container my-10">
       <h2 className="text-xl mb-5">
+        About <b>{selectedMovie.title}</b>
         <span className="ml-3 text-2xl text-yellow-500 font-bold">&#62;</span>
       </h2>
       <ul className="grid xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-10">
